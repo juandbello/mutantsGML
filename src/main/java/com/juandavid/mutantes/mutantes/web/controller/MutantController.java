@@ -34,17 +34,20 @@ public class MutantController {
             }
             offset = 0;
         }
+        // Using functions
+        int resulVertically = searchVertically(grid);
+        int resulHorizontally = searchHorizontally(grid);
+        int resulDiagonal = searchDiagonal(grid);
 
-        if(searchVertically(grid) > 0){
+
+        if(resulVertically > 0 || resulHorizontally > 0 || resulDiagonal > 0){
             statService.save(true);
-            return new ResponseEntity<>(  ,HttpStatus.OK);
+            return new ResponseEntity<>( "Mutante Encontrado !! \n DNA Encontrados Vertical: " + resulVertically + ", DNA Encontrados Horizontal: " + resulHorizontally + ", DNA Encontrados Diagonal: " + resulDiagonal,HttpStatus.OK);
         }else{
             statService.save(false);
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Humano Encontrado !!", HttpStatus.FORBIDDEN);
         }
-
     }
-
     static int searchHorizontally(char[][] grid) {
         int matches = 0;
         for (int i = 0; i < grid.length; i++) {
@@ -55,7 +58,6 @@ public class MutantController {
                 }
             }
         }
-        System.out.println(matches + "Encontrados horizontalmente");
         return matches;
     }
     static int searchVertically(char[][] grid) {
@@ -68,21 +70,17 @@ public class MutantController {
                 }
             }
         }
-        System.out.println( " Encontrados Verticalmente >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + matches );
         return matches;
     }
     static int searchDiagonal(char[][] grid) {
         int matches = 0;
-        for (int i = 0; i < grid[0].length-3; i++) {
-            for (int j = 0; j < grid.length; j++) {
-
-                if (grid[i][j] == grid[i+1][j+1] && grid[i][j] == grid[i+1][j+2] && grid[i][j] == grid[i+1][j+3])
-                    { matches += 1;
-                        System.out.println( grid[i+1][j+1] + " Argument " +   grid[i+1][j+2]  + " Argument " +  grid[i+1][j+3] );
-                    }
+        for (int i = 0; i <= grid.length-3; i++) {
+            for (int j = 0; j < grid[0].length-3; j++) {
+                if (grid[i][j] == grid[i+1][j+1] && grid[i][j] == grid[i+2][j+2] && grid[i][j] == grid[i+3][j+3]) {
+                    matches += 1;
+                }
             }
         }
-        System.out.println( " Encontrados Diagonalmente >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + matches );
         return matches;
     }
 
