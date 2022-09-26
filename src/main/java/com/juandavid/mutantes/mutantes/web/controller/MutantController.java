@@ -74,7 +74,7 @@ public class MutantController {
     }
     static int searchDiagonal(char[][] grid) {
         int matches = 0;
-        for (int i = 0; i <= grid.length-3; i++) {
+        for (int i = 0; i < grid.length-3; i++) {
             for (int j = 0; j < grid[0].length-3; j++) {
                 if (grid[i][j] == grid[i+1][j+1] && grid[i][j] == grid[i+2][j+2] && grid[i][j] == grid[i+3][j+3]) {
                     matches += 1;
